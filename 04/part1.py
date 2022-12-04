@@ -2,8 +2,8 @@ import logging
 
 def check_full_overlap(line):
     [ range1, range2] = line.split(',')
-    range1=[int(x) for x in range1.split('-')]
-    range2=[int(x) for x in range2.split('-')]
+    range1=list(map(int, range1.split('-')))
+    range2=list(map(int, range2.split('-')))
     if (range1[0]<=range2[0] and range1[1]>=range2[1]) or \
       (range2[0]<=range1[0] and range2[1]>=range1[1]):
       return True
