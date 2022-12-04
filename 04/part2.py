@@ -7,11 +7,6 @@ def check_overlap(line):
     if range2[1]<range1[0] or range1[1] < range2[0]:
         return False
     return True
-#    if (range1[0]<=range2[0] and range1[1]>=range2[1]) or \ # range1 in range2
-#      (range2[0]<=range1[0] and range2[1]>=range1[1]) or \ # range2 in range1
-#      return True
-
-#    return False
 
 def run(stream):
     return sum(

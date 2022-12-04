@@ -1,6 +1,6 @@
 import logging
 
-def check_overlap(line):
+def check_full_overlap(line):
     [ range1, range2] = line.split(',')
     range1=[int(x) for x in range1.split('-')]
     range2=[int(x) for x in range2.split('-')]
@@ -12,7 +12,7 @@ def check_overlap(line):
 
 def run(stream):
     return sum(
-        [ check_overlap(line.strip()) for line in stream.readlines()]
+        [ check_full_overlap(line.strip()) for line in stream.readlines()]
         )
 
 if __name__ == "__main__":
