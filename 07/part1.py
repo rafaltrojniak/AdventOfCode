@@ -30,27 +30,24 @@ DIR_THRESHOLD = 100000
 
 def find_tree_sizes(tree)-> tuple[int, int]:
     localsum=0 # Sum of files in current direcory and up
-    totalsum=0 # Sum of directories where size is less than threshold
+    sums=[] # Sum of directories where size is less than threshold
 
     for dirname, value in tree.items():
         if type(value) == dict:
             logging.info(f'calculating size for {dirname}')
-            child_localsum, child_totalsum=find_tree_sizes(value)
-            totalsum += child_totalsum
-            logging.info(f'{dirname} resulted with {child_localsum}')
+            child_localsum, child_sums=find_tree_sizes(value)
+            sums += child_sums
             localsum += child_localsum
-            if child_localsum < DIR_THRESHOLD:
-                logging.info(f'{dirname} added to totalsum {child_localsum}')
-                totalsum += child_localsum
         else:
             localsum+=value
+    sums.append(localsum)
 
-    return localsum, totalsum
+    return localsum, sums
 
 def run(stream):
     tree = read_tree(stream)
-    _, totalsum = find_tree_sizes(tree)
-    return totalsum
+    _, sums= find_tree_sizes(tree)
+    return sum([value for value in sums if value < DIR_THRESHOLD])
 
 if __name__ == "__main__":
     with open('input.txt') as indata:
