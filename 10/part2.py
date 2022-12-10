@@ -23,30 +23,21 @@ def log_beam(index):
     stripe = ''.join(stripe)
     logging.info(f'beam  : {stripe}')
 
+def get_pixel(signal, position):
+    if signal in [position-1, position, position+1]:
+        return '#'
+    return '.'
+
 def run(stream):
     signal = parse_signal(stream)
     width = 40
     output=''
-    for line in range(0,6):
-        #logging.info(f'analysing line {line}')
+    for line in range(0,len(signal),width):
         for index in range(0,width):
-            logging.info(f'analysing position {index}')
-            position = line*width+index
-            if position >=len(signal):
-                logging.error(f'Got out of the signal boundaries')
-                return output
-            signal_now = signal[position]
-            logging.info(f'Signalis at {signal_now}')
-            sprite_range = range(index-1,index+2)
-            logging.info(f'Sprinte rane {sprite_range }')
+            signal_now = signal[line+index]
             log_stripe(signal_now)
             log_beam(index)
-            if signal_now in sprite_range :
-                value = '#'
-            else:
-                value = '.'
-            output += value
-            logging.info(f'Result  {output}')
+            output+=get_pixel(signal_now, index)
         output += '\n'
     return output
 
