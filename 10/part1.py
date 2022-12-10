@@ -1,14 +1,8 @@
 import logging
 
-
-CYCLES_COST = {
-    'addx': 2,
-    'noop': 1
-}
-
 def parse_signal(stream):
     value = 1
-    signal=[value]
+    signal=[]
     for line in stream.readlines():
         signal.append(value)
         if line.startswith('addx'):
@@ -23,7 +17,7 @@ def run(stream):
     step = 40
     signal_strength_sum=0
     while position <len(signal):
-        signal_strength_sum+=position * signal[position]
+        signal_strength_sum+=position * signal[position-1]
         position += step
     return signal_strength_sum
 

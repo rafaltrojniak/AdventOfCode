@@ -1,14 +1,9 @@
 import logging
 
 
-CYCLES_COST = {
-    'addx': 2,
-    'noop': 1
-}
-
 def parse_signal(stream):
     value = 1
-    signal=[value]
+    signal=[]
     for line in stream.readlines():
         signal.append(value)
         if line.startswith('addx'):
@@ -37,10 +32,10 @@ def run(stream):
         for index in range(0,width):
             logging.info(f'analysing position {index}')
             position = line*width+index
-            if position >=len(signal)-1:
+            if position >=len(signal):
                 logging.error(f'Got out of the signal boundaries')
                 return output
-            signal_now = signal[position+1]
+            signal_now = signal[position]
             logging.info(f'Signalis at {signal_now}')
             sprite_range = range(index-1,index+2)
             logging.info(f'Sprinte rane {sprite_range }')
