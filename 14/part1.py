@@ -16,7 +16,7 @@ class NoMoveException(Exception):
 
 #counter=0
 
-def is_possible(sand, rocks, steady_sand):
+def is_possible(sand, stones_map, steady_sand):
 #    global counter
 #    counter+= 1
 #    if counter>1000:
@@ -25,26 +25,14 @@ def is_possible(sand, rocks, steady_sand):
     if sand in steady_sand:
         return False
 
-    for line in rocks:
-        #logging.info(f'Checking line {line}')
-        for number in range(0, len(line)-1):
-            start = line[number]
-            end = line[number+1]
-            x_start = min(start[0],end[0])
-            x_end = max(start[0],end[0])
-            y_start = min(start[1],end[1])
-            y_end = max(start[1],end[1])
-            #logging.info(f'testing sand {sand} for line {start}-{end}')
-            #logging.info(f'test {sand[0]} {range(start[0],end[0]+1)} and {sand[1]} {range(start[1],end[1]+1)}')
-            if sand[0] in range(x_start,x_end+1) and sand[1] in range(y_start,y_end+1):
-                logging.info(f'Sand is in rock - not possible')
-                return False
+    if sand in stones_map:
+        return False
     return True
 
-def calc_next_move(sand, rocks, steady_sand):
+def calc_next_move(sand, stones_map, steady_sand):
     for dx in (0, -1 , 1):
         new_sand = (sand[0]+dx, sand[1]+1)
-        if is_possible(new_sand, rocks, steady_sand):
+        if is_possible(new_sand, stones_map , steady_sand):
             return new_sand
 
     raise NoMoveException()
@@ -60,14 +48,30 @@ def calc_lowest_rock(rocks):
         lowest = max(lowest,max([point[1] for point in line]))
     return lowest
 
+def calc_map(rocks):
+    stones_map = set()
+    for line in rocks:
+        for number in range(0, len(line)-1):
+            start = line[number]
+            end = line[number+1]
+            x_start = min(start[0],end[0])
+            x_end = max(start[0],end[0])
+            y_start = min(start[1],end[1])
+            y_end = max(start[1],end[1])
+            for x in range(x_start,x_end+1):
+                for y in range(y_start,y_end+1):
+                    stones_map.add((x,y))
+    return stones_map
+
 def simulate_sand(rocks):
     steady_sand = set()
     lowest_rock = calc_lowest_rock(rocks)
+    stones_map = calc_map(rocks)
     while True:
         sand  = START_SAND
         try:
             while True:
-                sand = calc_next_move(sand, rocks, steady_sand)
+                sand = calc_next_move(sand, stones_map, steady_sand)
                 #logging.info(f'snad at {sand}')
                 if sand[1] > lowest_rock:
                     return steady_sand

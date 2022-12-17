@@ -16,18 +16,14 @@ def test_calc_lowest():
 def test_possible_rock_horizontal():
     sand = (10,10)
     steady_sand = set()
-    rocks = [
-        [(9,10),(11,10)]
-    ]
-    assert part1.is_possible(sand, rocks, steady_sand) == False
+    rocks_map = set([(9,10),(11,10), (10,10)])
+    assert part1.is_possible(sand, rocks_map, steady_sand) == False
 
 def test_possible_rock_horizontal_above():
     sand = (10,0)
     steady_sand = set()
-    rocks = [
-        [(9,10),(11,10)]
-    ]
-    assert part1.is_possible(sand, rocks, steady_sand) == True
+    rocks_map = set([(9,10),(11,10), (10,10)])
+    assert part1.is_possible(sand, rocks_map, steady_sand) == True
 
 
 def test_possible_rock_horizontal_above():
