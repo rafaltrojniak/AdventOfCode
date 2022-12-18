@@ -25,34 +25,45 @@ def read_input(stream):
 
     return sensors
 
-def get_sensor_range_for_row(sensor, row):
-    (sensor_x, sensor_y), (beacon_x, beakon_y) = sensor
-    distance = abs(beacon_x-sensor_x) + abs(beakon_y-sensor_y)
-    #logging.error(f'applying {sensor}, distance={distance}')
-    #logging.info(f'startting x={range(sensor_x-distance, sensor_x+1)}')
-    width = distance - abs(sensor_y - row)
-    if width >=0:
-        return range(sensor_x-width, sensor_x+width+1)
-    else:
-        return range(0,0)
+
+def get_normalized_sensor_ranges_for_row(sensors, row):
+    for sensor in sensors:
+        (sensor_x, sensor_y), distance= sensor
+        width = distance - abs(sensor_y - row)
+        if width >=0:
+            yield range(sensor_x-width, sensor_x+width+1)
+
+
+def normalize_sensors(sensors):
+    normalized_sensors = []
+    for sensor in sensors:
+        (sensor_x, sensor_y), (beacon_x, beakon_y) = sensor
+        distance = abs(beacon_x-sensor_x) + abs(beakon_y-sensor_y)
+        normalized_sensors.append(((sensor_x, sensor_y), distance))
+    return normalized_sensors
 
 def get_tunint_frequency(x,y):
     return x*4000000+y
 
 def run(stream, x_range:range, y_range:range):
     sensors = read_input(stream)
+    normalized_sensors = normalize_sensors(sensors)
     for y in y_range:
-        logging.error(f'scanning row {y}')
-        x_ranges = [get_sensor_range_for_row(sensor, y) for sensor in sensors]
-        x = 0
-        while x in x_range:
-            problematic_range = [ r for r in x_ranges if x in r]
-    #        logging.info(f'found problematic range {problematic_range}')
-            if not problematic_range :
-                return get_tunint_frequency(x,y)
-            x=max([r.stop for r in  problematic_range])
+        if y % 10000 == 0:
+            logging.error(f'scanning row {y}')
+        x_ranges = list(get_normalized_sensor_ranges_for_row(normalized_sensors , y))
+        #logging.error(f'x_ranges pre-sort {x_ranges}')
+        x_ranges.sort(key=lambda x: x.start)
+        #logging.error(f'x_ranges post-sort {x_ranges}')
+        x = x_range.start
+        for r in x_ranges:
+            if  x in r:
+                x=r.stop
+        if x in x_range:
+            return get_tunint_frequency(x,y)
 
 if __name__ == "__main__":
     with open('input.txt') as indata:
-        print(run(indata, x_range=range(0, 4000000+1), y_range=range(0,4000000+1)))
+        #print(run(indata, x_range=range(0, 4000000+1), y_range=range(0,4000000+1)))
+        print(run(indata, x_range=range(0, 4000000+1), y_range=range(3000000,4000000+1)))
 
