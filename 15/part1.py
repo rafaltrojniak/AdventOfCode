@@ -34,23 +34,11 @@ def run(stream, row:int):
         beacons_map.add((beacon_x, beakon_y))
         distance = abs(beacon_x-sensor_x) + abs(beakon_y-sensor_y)
         logging.error(f'applying {sensor}, distance={distance}')
-        width=0
         logging.info(f'startting x={range(sensor_x-distance, sensor_x+1)}')
-        for x in range(sensor_x-distance, sensor_x+1):
-            logging.info(f'startting y={range(sensor_y-width, sensor_y+width+1)}')
-            for y in range(sensor_y-width, sensor_y+width+1):
-                no_beacons_map.add((x,y))
-            width+= 1
-            #print_map(sensors , no_beacons_map, beacons_map)
-        logging.info(f'startting x={range(sensor_x, sensor_x+distance+1)}')
-        width-= 1
-        for x in range(sensor_x, sensor_x+distance+1):
-            logging.info(f'startting y={range(sensor_y-width, sensor_y+width+1)}')
-            for y in range(sensor_y-width, sensor_y+width+1):
-                no_beacons_map.add( (x,y))
-            width-= 1
-            #print_map(sensors , no_beacons_map, beacons_map)
-        #break
+        width = distance - abs(sensor_y - row)
+        if width >=0:
+            for x in range(sensor_x-width, sensor_x+width+1):
+                no_beacons_map.add((x,row))
 
     return  \
         len([position for position in list(no_beacons_map) if position[1] == row]) - \
