@@ -1,0 +1,76 @@
+import logging
+
+
+CHECK_ROCK = 2022
+
+ROCKS = [
+# ####
+    [
+        (0,0),(1,0),(2,0),(3,0)
+    ],
+
+# .#.
+# ###
+# .#.
+    [ (1,0), (0,-1), (1,-1), (2,-1), (1,-2) ],
+
+# ..#
+# ..#
+# ###
+    [ (0,0), (1,0), (2,0), (2,-1), (2,-2) ],
+
+# #
+# #
+# #
+# #
+    [ (0,0), (0,-1), (0,-2), (0,-3)],
+
+# ##
+# ##
+    [ (0,0), (1,0), (0,-1), (1,-1)],
+]
+
+directions = {
+    '<': -1,
+    '>': +1,
+}
+
+def move_rock(rock, direction):
+    return [(x+direction,y) for (x,y) in rock]
+
+def check_colide(rock, tunnel):
+    for (x,y) in rock:
+        if (x,y) in tunnel:
+            return True
+        if x<0 or x>=7:
+            return True
+    return False
+
+def run(stream):
+    data = stream.readline().strip()
+
+    wind = [ directions[node] for node in data]
+
+    max_tower = 0
+
+    rock_number = 0
+    rock = ROCKS[rock_number]
+    rock_position = max_tower + 2
+
+    tunnel = set([(x,-1)for x in range(0,7)])
+    while True:
+        for direction in wind:
+            pushed_rock = move_rock(rock, direction)
+            if 
+            #First try to push
+            #then fall one position down
+            #If fails to fail - pick next rock
+
+
+            if rock_number == CHECK_ROCK +1:
+                return max_tower
+
+if __name__ == "__main__":
+    with open('input.txt') as indata:
+        print(run(indata))
+
