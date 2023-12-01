@@ -28,7 +28,7 @@ def read_input(stream):
 
 def get_normalized_sensor_ranges_for_row(sensors, row):
     for sensor in sensors:
-        (sensor_x, sensor_y), distance= sensor
+        sensor_x, sensor_y, distance= sensor
         width = distance - abs(sensor_y - row)
         if width >=0:
             yield range(sensor_x-width, sensor_x+width+1)
@@ -39,7 +39,7 @@ def normalize_sensors(sensors):
     for sensor in sensors:
         (sensor_x, sensor_y), (beacon_x, beakon_y) = sensor
         distance = abs(beacon_x-sensor_x) + abs(beakon_y-sensor_y)
-        normalized_sensors.append(((sensor_x, sensor_y), distance))
+        normalized_sensors.append(((sensor_x, sensor_y, distance)))
     return normalized_sensors
 
 def get_tunint_frequency(x,y):
@@ -59,6 +59,8 @@ def run(stream, x_range:range, y_range:range):
         for r in x_ranges:
             if  x in r:
                 x=r.stop
+                #if x not in x_range:
+                #    break
         if x in x_range:
             return get_tunint_frequency(x,y)
 

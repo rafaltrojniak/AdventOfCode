@@ -1,0 +1,32 @@
+digraph abstract{
+AA [shape=dot,label="AA"];
+AA -> DD;
+AA -> BB;
+AA -> II;
+BB [label="BB\n13"];
+BB -> CC;
+BB -> AA;
+CC [label="CC\n2"];
+CC -> DD;
+CC -> BB;
+DD [label="DD\n20"];
+DD -> CC;
+DD -> EE;
+DD -> AA;
+EE [label="EE\n3"];
+EE -> DD;
+EE -> FF;
+FF [shape=dot,label="FF"];
+FF -> EE;
+FF -> GG;
+GG [shape=dot,label="GG"];
+GG -> HH;
+GG -> FF;
+HH [label="HH\n22"];
+HH -> GG;
+II [shape=dot,label="II"];
+II -> JJ;
+II -> AA;
+JJ [label="JJ\n21"];
+JJ -> II;
+}
