@@ -1,4 +1,4 @@
-from part2 import puzzle, parse_input, fiund_calibartion_value
+from part2 import puzzle, parse_input, find_calibartion_value
 
 example_input = """two1nine
 eightwothree
@@ -27,4 +27,4 @@ def test_example():
 
 def test_calibration_value():
     for input, value in zip(parse_input(example_input), example_calibration_values):
-        assert fiund_calibartion_value(input) == value
+        assert find_calibartion_value(input) == value

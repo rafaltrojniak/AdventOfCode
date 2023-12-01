@@ -5,7 +5,7 @@ def parse_input(input: str):
     return input.strip().split('\n')
 
 
-def fiund_calibartion_value(line: str):
+def find_calibartion_value(line: str):
     numbers_in_line = [i for i in line if i in string.digits]
     return int(f'{numbers_in_line[0]}{numbers_in_line[-1]}')
 
@@ -13,7 +13,7 @@ def fiund_calibartion_value(line: str):
 def puzzle(input: str) -> int:
     parsed = parse_input(input)
 
-    return sum(map(fiund_calibartion_value, parsed))
+    return sum(map(find_calibartion_value, parsed))
 
 
 if __name__ == "__main__":

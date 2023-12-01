@@ -27,7 +27,7 @@ def find_first_occurence(puzzle: str, key_map: dict) -> int:
         puzzle = puzzle[1:]
 
 
-def fiund_calibartion_value(line: str):
+def find_calibartion_value(line: str):
     first = find_first_occurence(line, WORD_NUMBERS)
     last = find_first_occurence(line[::-1], REVERSED_WORD_NUMBERS)
     return int(f'{first}{last}')
@@ -35,7 +35,7 @@ def fiund_calibartion_value(line: str):
 
 def puzzle(input: str) -> int:
     parsed = parse_input(input)
-    return sum(map(fiund_calibartion_value, parsed))
+    return sum(map(find_calibartion_value, parsed))
 
 
 if __name__ == "__main__":
