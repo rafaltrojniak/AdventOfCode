@@ -1,8 +1,8 @@
 import logging
 
-def run(stream):
+def puzzle(input_str: str) -> int:
     pass
 
 if __name__ == "__main__":
-    with open('input.txt') as indata:
-        print(run(indata))
+    with open('input.txt', 'r') as indata:
+        print(puzzle(indata.read()))
