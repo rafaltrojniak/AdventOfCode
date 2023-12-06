@@ -51,7 +51,6 @@ def map_ranges(source_location: range, src_range: range, dst_range: range) \
 
 def map_locations(org_ranges: list[range], maps: list[range]) -> list[range]:
     processed_ranges = []
-    saved_org_ranges = org_ranges.copy()
     for src_range, dst_range in maps:
         unprocessed_ranges = []
         while org_ranges:
