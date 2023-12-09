@@ -1,4 +1,4 @@
-from part2 import puzzle, parse_input, find_missing_element
+from part2 import puzzle, parse_input, find_missing_element, find_missing_element_with_itreators
 
 example_input = """
 0 3 6 9 12 15
@@ -37,3 +37,6 @@ def test_example():
 def test_real_not_right_response():
     with open('input.txt', 'r') as indata:
         assert puzzle(indata.read()) == 1062
+
+def test_huge_range():
+    assert find_missing_element_with_itreators(range(1, 1000000000000)) == 1000000000000

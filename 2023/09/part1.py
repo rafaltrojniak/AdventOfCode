@@ -12,7 +12,7 @@ def parse_input(input_str: str):
 
 
 def find_missing_element(sequence: list) -> int:
-    deltas = [j - i for i, j in zip(sequence[:-1], sequence[1:])]
+    deltas = [j - i for i, j in pairwise(sequence)]
     if any(deltas):
         new_delta = find_missing_element(deltas)
     else:
