@@ -1,10 +1,14 @@
 import logging
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
+
 
 def parse_input(input_str: str):
     pass
 
 def puzzle(input_str: str) -> int:
+    data = parse_input(input_str)
     pass
 
 
