@@ -13,3 +13,9 @@ def test_example_parsing():
 
 def test_example():
     assert puzzle(example_input) == example_response
+
+
+@pytest.mark.skip()
+def test_real_right_response():
+    with open('input.txt', 'r') as indata:
+        assert puzzle(indata.read()) == None
