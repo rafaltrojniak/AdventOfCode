@@ -2,6 +2,8 @@
 import logging
 from collections import namedtuple
 from dataclasses import dataclass
+from cProfile import Profile
+from pstats import SortKey, Stats
 
 Point = namedtuple('Point', ['x', 'y'])
 Beam = namedtuple('Beam', ['point', 'vector'])
@@ -112,4 +114,6 @@ def puzzle(input_str: str) -> int:
 
 if __name__ == "__main__":
     with open('input.txt', 'r') as indata:
-        print(puzzle(indata.read()))
+        with Profile() as profile:
+            print(puzzle(indata.read()))
+            Stats(profile).strip_dirs().sort_stats(SortKey.CUMULATIVE).print_stats()

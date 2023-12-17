@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "Advent Of Code day XX"
+version = "0.1.0"
+description = "Solution for Advent Of Code day XX"
+authors = ["Rafał Trójniak <git@trojniak.net>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest_dependency = "0.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
