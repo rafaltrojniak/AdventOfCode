@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+from cProfile import Profile
+from pstats import SortKey, Stats
+
 import logging
 from heapq import heappop, heappush
 
@@ -76,13 +79,12 @@ def puzzle(input_str: str) -> int:
     visited_states = set()
     lava_fronts = []
     heappush(lava_fronts,
-             (0, (0, 0), (1, 0), 0, tuple())
+             (0, (0, 0), (1, 0), 0, [])
              )
     heappush(lava_fronts,
-             (0, (0, 0), (0, 1), 0, tuple())
+             (0, (0, 0), (0, 1), 0, [])
              )
 
-    results = []
 
     while lava_fronts:
         # print_results(visited, max_x, max_y, lava_fronts)
@@ -90,7 +92,6 @@ def puzzle(input_str: str) -> int:
         # Focusing on the front with the lowest heat loss
         temperature, point, vector, straight_counter, history = heappop(lava_fronts)
 
-        state_with_vector = (point, vector, straight_counter)
 
         if straight_counter >= 10:
             continue
@@ -99,6 +100,7 @@ def puzzle(input_str: str) -> int:
             print_history(history, max_x, max_y)
             return temperature, history
 
+        state_with_vector = (point, vector, straight_counter)
         if state_with_vector in visited_states:
             continue
         visited_states.add(state_with_vector)
@@ -121,10 +123,10 @@ def puzzle(input_str: str) -> int:
             else:
                 next_straight_counter = 0
 
-            next_history = history + ((next_point, next_vector, temperature),)
+            next_history = history + [(next_point, next_vector, temperature),]
             heappush(lava_fronts,
                      (new_temperature,
-                      next_point, (dx, dy), next_straight_counter, next_history
+                      next_point, next_vector, next_straight_counter, next_history
                       )
                      )
 
@@ -133,4 +135,7 @@ def puzzle(input_str: str) -> int:
 
 if __name__ == "__main__":
     with open('input.txt', 'r') as indata:
-        print(puzzle(indata.read()))
+        with open('input.txt', 'r') as indata:
+            with Profile() as profile:
+                print(puzzle(indata.read()))
+                Stats(profile).strip_dirs().sort_stats(SortKey.CUMULATIVE).print_stats()
