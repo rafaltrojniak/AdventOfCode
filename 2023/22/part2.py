@@ -3,6 +3,7 @@ import logging
 from typing import NamedTuple
 from functools import cache
 from collections import defaultdict
+from collections import deque
 
 
 class Point(NamedTuple):
@@ -102,18 +103,20 @@ def puzzle(input_str: str) -> int:
     @cache
     def traverse_graph(brick):
         bricks =set([brick])
-        candidates = support_graph[brick].copy()
+        candidates = deque()
+        candidates.extend(
+            [ (b.start.z, b) for b in support_graph[brick]]
+        )
 
-        while True:
-            for brick in candidates:
-                if rest_graph[brick].issubset(bricks):
-                    candidates.remove(brick)
-                    candidates.extend(support_graph[brick].copy())
-                    bricks.add(brick)
-                    break
-            else:
-                break
+        while candidates:
+            _, brick = candidates.popleft()
+            if rest_graph[brick].issubset(bricks):
+                candidates.extend(
+                    [(b.start.z, b) for b in support_graph[brick]]
+                )
+                bricks.add(brick)
         return bricks
+
 
     def count_elements(brick):
         return len(traverse_graph(brick))-1
