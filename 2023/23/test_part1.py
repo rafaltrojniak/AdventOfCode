@@ -40,4 +40,4 @@ def test_example():
 @pytest.mark.skip()
 def test_real_right_response():
     with open('input.txt', 'r') as indata:
-        assert puzzle(indata.read()) == None
+        assert puzzle(indata.read()) == 2110
