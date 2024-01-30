@@ -92,6 +92,36 @@ def normalize_graph(graph: dict):
     return graph
 
 
+
+def find_paths_simplified(graph, data):
+
+    simplified_graph={
+        (key.x, key.y):[
+            ((edge.finish.x,edge.finish.y), edge.length)
+            for edge in edges
+        ]
+        for key, edges in graph.items()
+    }
+
+    max_y = max([point[1] for point in simplified_graph.keys()])
+    end_point = [point for point in simplified_graph.keys() if point[1]==max_y][0]
+
+    def get_max_path( point: tuple, visited: frozenset):
+        if point == end_point:
+            return 0
+        new_visited = frozenset(visited.union([point]))
+        lengths=[]
+        for next_point, length in simplified_graph[point]:
+            if next_point in new_visited:
+                continue
+            result = get_max_path(next_point, new_visited)
+            if result is not None:
+                lengths.append(result + length)
+        if lengths :
+            return max(lengths)
+
+    return get_max_path( (1,0), frozenset())
+
 def find_paths(graph, data):
 
     simplified_graph={
@@ -104,6 +134,24 @@ def find_paths(graph, data):
 
     max_y = max([point[1] for point in simplified_graph.keys()])
     end_point = [point for point in simplified_graph.keys() if point[1]==max_y][0]
+
+    queue = deque()
+    start = (1,0)
+    queue.append((0, start, {start}))
+
+    max_length=0
+
+    while queue:
+        length, point, visited = queue.pop()
+        if point == end_point:
+            max_length=max(length, max_length)
+            continue
+        for next_point, d_length in simplified_graph[point]:
+            if next_point in visited:
+                continue
+            queue.append( ( length+d_length, next_point, visited | {point}) )
+
+    return max_length
 
     def get_max_path( point: tuple, visited: frozenset):
         if point == end_point:
