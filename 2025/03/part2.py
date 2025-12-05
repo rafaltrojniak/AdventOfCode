@@ -25,10 +25,9 @@ def brute_force_solution(data):
 def max_in_row(data: list[int], left=12):
     if left == 1:
         return max(data)
-    order = sorted(set(data[0:(1 - left)]), reverse=True)
-    for number in order:
-        position = data.index(number)
-        return number * pow(10, left - 1) + max_in_row(data[position + 1:], left - 1)
+    number = max(data[0:(1 - left)])
+    position = data.index(number)
+    return number * pow(10, left - 1) + max_in_row(data[position + 1:], left - 1)
 
 
 def puzzle(input_str: str) -> int:
