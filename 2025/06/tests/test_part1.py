@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from part1 import puzzle, parse_input
 import pytest
 
@@ -24,5 +26,6 @@ def test_example():
 
 
 def test_real_right_response():
-    with open('input.txt', 'r') as indata:
+    input_path = Path(__file__).resolve().parents[1] / 'input.txt'
+    with input_path.open('r') as indata:
         assert puzzle(indata.read()) == 5977759036837

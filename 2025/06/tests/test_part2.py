@@ -1,5 +1,5 @@
 from part2 import puzzle, parse_input
-import pytest
+from pathlib import Path
 
 
 example_input = """123 328  51 64
@@ -25,5 +25,6 @@ def test_example():
     assert puzzle(example_input) == example_response
 
 def test_real_right_response():
-    with open('input.txt', 'r') as indata:
+    input_path = Path(__file__).resolve().parents[1] / 'input.txt'
+    with input_path.open('r') as indata:
         assert puzzle(indata.read()) == 9630000828442

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from part2 import puzzle, parse_input
 import pytest
 
@@ -13,3 +15,10 @@ def test_example_parsing():
 
 def test_example():
     assert puzzle(example_input) == example_response
+
+
+@pytest.mark.skip()
+def test_real_right_response():
+    input_path = Path(__file__).resolve().parents[1] / 'input.txt'
+    with input_path.open('r') as indata:
+        assert puzzle(indata.read()) == None
